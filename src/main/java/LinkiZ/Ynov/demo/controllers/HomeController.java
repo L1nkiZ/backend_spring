@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import LinkiZ.Ynov.demo.payload.responses.HomeResponse;
-
-
+import LinkiZ.Ynov.demo.payload.requests.HomeRequest;
 
 @RestController
 public class HomeController {
@@ -23,6 +22,11 @@ public class HomeController {
     @PostMapping("/")
     public HomeResponse postMethodName(@RequestBody String param) {
         return new HomeResponse(param);
+    }
+
+        @PostMapping("/HomeRequest")
+    public HomeResponse homePost(@RequestBody HomeRequest homeRequest) {
+        return new HomeResponse(homeRequest.getValue());
     }
     
     
