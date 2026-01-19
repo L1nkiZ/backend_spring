@@ -13,11 +13,6 @@ import LinkiZ.Ynov.demo.payload.requests.NoteRequest;
 public class CrudNoteController {
     private List<NoteRequest> notes = new ArrayList<>();
 
-    @GetMapping("/notes/all")
-    public List<NoteRequest> getAllNotes() {
-        return notes;
-    }
-
     @PostMapping("/notes/add")
     public String addNote(@RequestBody NoteRequest noteRequest) {
         NoteRequest newNote = new NoteRequest();
@@ -28,24 +23,34 @@ public class CrudNoteController {
         return "La note a été ajoutée avec succès";
     }
 
-    // @GetMapping("/notes/edit")
+    @PostMapping("/notes/remove")
+    public String removeNote(@RequestBody NoteRequest noteRequest) {
+        notes.removeIf(note -> note.getId() == noteRequest.getId());
+        return "La note a été supprimée avec succès";
+    }
 
-    // }
+    @GetMapping("/notes/all")
+    public List<NoteRequest> getAllNotes() {
+        return notes;
+    }
 
-    // @GetMapping("/notes/{id}")
-    
+    @GetMapping("/notes/getById")
+    public NoteRequest getNoteById(@RequestBody NoteRequest noteRequest) {
+        return notes.stream()
+                .filter(note -> note.getId() == noteRequest.getId())
+                .findFirst()
+                .orElse(null);
+    }
 
-    
+    @PostMapping("/notes/update")
+    public String updateNote(@RequestBody NoteRequest noteRequest) {
+        for (NoteRequest note : notes) {
+            if (note.getId() == noteRequest.getId()) {
+                note.setTitle(noteRequest.getTitle());
+                note.setContent(noteRequest.getContent());
+                return "La note a été mise à jour avec succès";
+            }
+        }
+        return "Note non trouvée";  
+    }
 }
-// CRUD 
-//     Note
-//      id
-//         title
-//         content
-
-// ArrayList
-//         add
-//         remove
-//         getAll
-//         getById
-//         update

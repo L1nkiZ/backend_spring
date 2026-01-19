@@ -1,15 +1,15 @@
 package LinkiZ.Ynov.demo.payload.requests;
 
 public class NoteRequest {
-    private Long id;
+    private int id;
     private String title;
     private String content;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
