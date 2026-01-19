@@ -1,7 +1,7 @@
-package LinkiZ.Ynov.demo.payload.requests;
+package LinkiZ.Ynov.demo.model;
 
-public class NoteRequest {
-    private int id;
+public class Note {
+    private Integer id;
     private String title;
     private String content;
 

@@ -6,16 +6,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import LinkiZ.Ynov.demo.payload.requests.NoteRequest;
+import LinkiZ.Ynov.demo.model.Note;
 
 @RestController
+@RequestMapping("/notes")
 public class CrudNoteController {
-    private List<NoteRequest> notes = new ArrayList<>();
+    private List<Note> notes = new ArrayList<>();
 
-    @PostMapping("/notes/add")
-    public String addNote(@RequestBody NoteRequest noteRequest) {
-        NoteRequest newNote = new NoteRequest();
+    @PostMapping("/add")
+    public String addNote(@RequestBody Note noteRequest) {
+        Note newNote = new Note();
         newNote.setId(noteRequest.getId());
         newNote.setTitle(noteRequest.getTitle());
         newNote.setContent(noteRequest.getContent());
@@ -23,28 +25,30 @@ public class CrudNoteController {
         return "La note a été ajoutée avec succès";
     }
 
-    @PostMapping("/notes/remove")
-    public String removeNote(@RequestBody NoteRequest noteRequest) {
+    @PostMapping("/remove")
+    public String removeNote(@RequestBody Note noteRequest) {
         notes.removeIf(note -> note.getId() == noteRequest.getId());
         return "La note a été supprimée avec succès";
     }
 
-    @GetMapping("/notes/all")
-    public List<NoteRequest> getAllNotes() {
+    @GetMapping("/")
+    public List<Note> getAllNotes() {
         return notes;
     }
 
-    @GetMapping("/notes/getById")
-    public NoteRequest getNoteById(@RequestBody NoteRequest noteRequest) {
-        return notes.stream()
-                .filter(note -> note.getId() == noteRequest.getId())
-                .findFirst()
-                .orElse(null);
+    @GetMapping("/getById")
+    public Note getNoteById(@RequestBody Note noteRequest) {
+        for (Note note : notes) {
+            if (note.getId() == noteRequest.getId()) {
+                return note;
+            }
+        }
+        return null;
     }
 
-    @PostMapping("/notes/update")
-    public String updateNote(@RequestBody NoteRequest noteRequest) {
-        for (NoteRequest note : notes) {
+    @PostMapping("/update")
+    public String updateNote(@RequestBody Note noteRequest) {
+        for (Note note : notes) {
             if (note.getId() == noteRequest.getId()) {
                 note.setTitle(noteRequest.getTitle());
                 note.setContent(noteRequest.getContent());
