@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import LinkiZ.Ynov.demo.payload.responses.HomeResponse;
 import LinkiZ.Ynov.demo.payload.requests.HomeRequest;
+import LinkiZ.Ynov.demo.payload.responses.HomeResponse;
 
 @RestController
 public class HomeController {
@@ -29,5 +29,5 @@ public class HomeController {
         return new HomeResponse(homeRequest.getValue());
     }
     
-    
+
 }
