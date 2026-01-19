@@ -1,9 +1,9 @@
-package linkiz.ynov.demo.controllers;
+package LinkiZ.Ynov.demo.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import linkiz.ynov.demo.payload.responses.HomeResponse;
+import LinkiZ.Ynov.demo.payload.responses.HomeResponse;
 
 
 @RestController

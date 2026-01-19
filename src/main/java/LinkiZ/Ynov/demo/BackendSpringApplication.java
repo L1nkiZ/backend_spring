@@ -1,4 +1,4 @@
-package linkiz.ynov.demo;
+package LinkiZ.Ynov.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

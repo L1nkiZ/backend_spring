@@ -1,4 +1,4 @@
-package linkiz.ynov.demo.payload.responses;
+package LinkiZ.Ynov.demo.payload.responses;
 
 public class HomeResponse {
     public String value;
@@ -14,7 +14,6 @@ public class HomeResponse {
     public HomeResponse() {}
 
     public HomeResponse(String value) {
-        super();
         this.value = value;
     }    
 }
