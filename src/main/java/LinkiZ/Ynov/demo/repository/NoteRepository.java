@@ -7,4 +7,5 @@ import LinkiZ.Ynov.demo.entity.Note;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Long> {
+    public Note findByTitle(String title);
 }
