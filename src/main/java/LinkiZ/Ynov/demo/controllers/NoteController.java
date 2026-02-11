@@ -43,9 +43,9 @@ public class NoteController {
         return noteService.getAllNotes();
     }
 
-    @GetMapping("/getById")
-    public Note getNoteById(@RequestBody Note noteRequest) {
-        return noteService.getNoteById(noteRequest.getId());
+    @GetMapping("/{id}")
+    public Note getNoteById(@PathVariable Long id) {
+        return noteService.getNoteById(id);
     }
 
     @PutMapping("/update")

@@ -5,7 +5,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -62,10 +61,11 @@ public class SecurityConfig {
 			        .requestMatchers("/v3/api-docs*/**").permitAll()
 					.requestMatchers("/h2-console/**").permitAll()
 					.requestMatchers("/login").permitAll()
-					.requestMatchers(HttpMethod.GET , "/notes", "/notes/**").permitAll()
+					.requestMatchers("/error").permitAll()
+					.requestMatchers("/notes", "/notes/**").permitAll()
 
-					.requestMatchers(HttpMethod.POST, "/notes").hasAuthority("SCOPE_ROLE_USER")
-					.requestMatchers(HttpMethod.DELETE, "/notes/**").hasAuthority("SCOPE_ROLE_ADMIN")
+					// .requestMatchers(HttpMethod.POST, "/notes").hasAuthority("SCOPE_ROLE_USER")
+					// .requestMatchers(HttpMethod.DELETE, "/notes/**").hasAuthority("SCOPE_ROLE_ADMIN")
 					.anyRequest().authenticated()
 				)
 				.oauth2ResourceServer((oauth2 -> oauth2.jwt(Customizer.withDefaults())))
@@ -77,7 +77,7 @@ public class SecurityConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(false);
-		config.addAllowedOriginPattern("*");
+		config.addAllowedOriginPattern("http://localhost:4200");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
 		source.registerCorsConfiguration("/**", config);
