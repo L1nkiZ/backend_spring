@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import LinkiZ.Ynov.demo.payload.requests.LoginDTO;
+import LinkiZ.Ynov.demo.payload.responses.LoginResponseDTO;
 import LinkiZ.Ynov.demo.service.TokenService;
 
 @RestController
@@ -25,7 +26,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginDTO loginDTO) {
 		try {
 			UsernamePasswordAuthenticationToken usernamePasswordAuthentication = 
 					new UsernamePasswordAuthenticationToken(
@@ -33,7 +34,8 @@ public class UserController {
 							loginDTO.getPassword());
 			Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthentication);
 			String token = tokenService.generateToken(authentication);
-			return ResponseEntity.ok(token);
+			LoginResponseDTO response = new LoginResponseDTO(token);
+			return ResponseEntity.ok(response);
 		} catch (BadCredentialsException e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}

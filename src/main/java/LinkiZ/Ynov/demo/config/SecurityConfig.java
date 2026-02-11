@@ -28,29 +28,22 @@ import com.nimbusds.jose.jwk.source.ImmutableSecret;
 
 @Configuration
 public class SecurityConfig {
-	
 	private UserDetailsService userDetailsService;
-	
 	private String jwtKey = "grMOWmeG2ruv4Ov4O9VQ5rXsWa1iB16I";
-	
 	public SecurityConfig(UserDetailsService userDetailsService) {
 		this.userDetailsService = userDetailsService;
 	}
-	
 	@Bean
 	public JwtDecoder jwtDecoder() {
 		SecretKeySpec secretKey = new SecretKeySpec(this.jwtKey.getBytes(), "RSA");
 		return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS256).build();
 	}
-	
 	@Bean
 	public JwtEncoder jwtEncoder() {
 		return new NimbusJwtEncoder(new ImmutableSecret<>(this.jwtKey.getBytes()));
 	}
-	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		
 		return http
 				.csrf(csrf -> csrf.disable())
 			      .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
@@ -71,12 +64,11 @@ public class SecurityConfig {
 				.oauth2ResourceServer((oauth2 -> oauth2.jwt(Customizer.withDefaults())))
 				.build();
 	}
-	
 	@Bean
     CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(false);
+		config.setAllowCredentials(true);
 		config.addAllowedOriginPattern("http://localhost:4200");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod("*");
@@ -88,7 +80,6 @@ public class SecurityConfig {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
 	@Bean
 	public AuthenticationManager authentifcationManager() {
 		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService);
@@ -96,9 +87,6 @@ public class SecurityConfig {
 
 		ProviderManager providerManager = new ProviderManager(authenticationProvider);
 		providerManager.setEraseCredentialsAfterAuthentication(false);
-		
-		return providerManager;	
+		return providerManager;
 	}
-	
-	
 }
