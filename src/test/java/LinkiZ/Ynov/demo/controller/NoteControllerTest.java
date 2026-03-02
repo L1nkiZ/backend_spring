@@ -2,6 +2,7 @@ package LinkiZ.Ynov.demo.controller;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -20,6 +21,7 @@ import LinkiZ.Ynov.demo.entity.Note;
 import LinkiZ.Ynov.demo.payload.requests.LoginDTO;
 import LinkiZ.Ynov.demo.payload.responses.LoginResponseDTO;
 
+@ActiveProfiles("test") // Utilisation du profil de test pour charger les propriétés spécifiques (application-test.properties)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // Lancement du serveur sur un port aléatoire pour faire les tests d'intégration avec un vrai contexte Http
 @AutoConfigureMockMvc
 public class NoteControllerTest {
