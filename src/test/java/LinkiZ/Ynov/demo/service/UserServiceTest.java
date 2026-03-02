@@ -1,11 +1,13 @@
 package LinkiZ.Ynov.demo.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,13 +38,16 @@ public class UserServiceTest {
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user)); // Le mock renverra l'utilisateur simulé lorsqu'on cherchera par username
 
         // Act
-        UserDetails userDetails = userService.loadUserByUsername(username); //Appel de la methode
+        UserDetails result = userService.loadUserByUsername(username); //Appel de la methode
 
         // Assert
         // Vérification que le résultat n'est pas null et que le username correspond à celui de l'utilisateur simulé
-        assertThat(userDetails)
-            .isNotNull()
-            .extracting(UserDetails::getUsername)
-            .isEqualTo(username);
+        assertThat(result.getUsername()).isEqualTo(username);
+        assertThat(result.getPassword()).isEqualTo("password");
+
+        List<String> roles = result.getAuthorities().stream().map(auth -> auth.getAuthority()).toList();
+        assertThat(roles).containsExactly("ROLE_USER"); // Vérification que les rôles sont correctement récupérés et formatés
+
+        verify(userRepository).findByUsername(username); // Vérification que la méthode findByUsername a été appelée avec le bon argument
     }
 }
