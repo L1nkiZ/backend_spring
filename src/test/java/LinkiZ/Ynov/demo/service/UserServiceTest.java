@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import LinkiZ.Ynov.demo.entity.Role;
 import LinkiZ.Ynov.demo.entity.User;
@@ -48,6 +50,19 @@ public class UserServiceTest {
         List<String> roles = result.getAuthorities().stream().map(auth -> auth.getAuthority()).toList();
         assertThat(roles).containsExactly("ROLE_USER"); // Vérification que les rôles sont correctement récupérés et formatés
 
+        verify(userRepository).findByUsername(username); // Vérification que la méthode findByUsername a été appelée avec le bon argument
+    }
+
+    @Test
+    public void testLoadUserByUsername_UserNotFound() {
+        // Arrange
+        UserService userService = new UserService(userRepository);
+        String username = "untilisateurInconnu";
+        when(userRepository.findByUsername(username)).thenReturn(Optional.empty()); // Le mock renverra un Optional vide pour simuler un utilisateur non trouvé
+
+        // Act & Assert
+        assertThatExceptionOfType(UsernameNotFoundException.class)
+            .isThrownBy(() -> userService.loadUserByUsername(username)); // Appel de la méthode qui devrait lancer une exception
         verify(userRepository).findByUsername(username); // Vérification que la méthode findByUsername a été appelée avec le bon argument
     }
 }
