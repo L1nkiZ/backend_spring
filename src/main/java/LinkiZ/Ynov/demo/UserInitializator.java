@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import LinkiZ.Ynov.demo.entity.Role;
 import LinkiZ.Ynov.demo.entity.User;
 import LinkiZ.Ynov.demo.repository.UserRepository;
-
 import jakarta.transaction.Transactional;
 
 @Component
+// @Profile("!test")
 public class UserInitializator implements CommandLineRunner {
 
 	@Autowired
